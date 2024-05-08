@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/FVer12/CI-CD-API.git'
+                git branch: 'main', url: 'https://github.com/FVer12/CI-CDAPI.git'
             } 
         }
         stage('Build') {
