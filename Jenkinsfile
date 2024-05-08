@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'docker build -f API3/Dockerfile -t uvera12/uvperezimg:v-1 .'
+                sh 'docker build -f API3/Dockerfile -t uvera12/api-image:vsha256-1 .'
             }
         }
         stage('Push') {
