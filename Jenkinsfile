@@ -9,12 +9,30 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'docker build -f API3/Dockerfile -t uvera12/api-image:vsha256-1 .'
+                script {
+                    try {
+                        docker.withTool('docker') {
+                            sh 'docker build -f API3/Dockerfile -t uvera12/api-image:vsha256-1 .'
+                        }
+                    } catch (err) {
+                        currentBuild.result = 'FAILURE'
+                        error "Error al construir la imagen Docker: ${err}"
+                    }
+                }
             }
         }
         stage('Push') {
             steps {
-                echo 'El construyo la imagen perfectamente'
+                script {
+                    try {
+                        docker.withRegistry('https://registry.example.com', 'dockerCredentials') {
+                            sh 'docker push uvera12/api-image:vsha256-1'
+                        }
+                    } catch (err) {
+                        currentBuild.result = 'FAILURE'
+                        error "Error al empujar la imagen Docker: ${err}"
+                    }
+                }
             }
         }
     }
